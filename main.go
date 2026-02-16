@@ -63,10 +63,10 @@ func (s *simpleServer) Serve(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (lb *LoadBalancer) getNextAvailableServer() Server {
-	server := lb.servers[lb.roundRobinCount&len(lb.servers)]
+	server := lb.servers[lb.roundRobinCount%len(lb.servers)]
 	for !server.IsAlive() {
 		lb.roundRobinCount++
-		server = lb.servers[lb.roundRobinCount&len(lb.servers)]
+		server = lb.servers[lb.roundRobinCount%len(lb.servers)]
 	}
 	lb.roundRobinCount++
 	
@@ -84,9 +84,9 @@ func main() {
 	PORT := os.Getenv("PORT")
 	
 	servers := []Server{
-		newSimpleServer("https://www.duckduckgo.com"),
-		newSimpleServer("https://www.google.com"),
-		newSimpleServer("https://www.github.com"),
+		newSimpleServer("https://www.duckduckgo.com/"),
+		newSimpleServer("https://www.google.com/"),
+		newSimpleServer("https://www.github.com/"),
 	}
 	
 	lb := NewLoadBalancer("8000", servers)
