@@ -1,2 +1,2 @@
 # go-load-balancer
-A simplistic load balancer made using golang
+A simplistic load balancer made using golang working on round robin
